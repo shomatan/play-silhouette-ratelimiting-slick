@@ -28,12 +28,11 @@ class UserRepositoryPosgresql @Inject() (protected val dbConfigProvider: Databas
     val userQuery = for {
       dbLoginInfo <- loginInfoQuery(loginInfo)
       dbUserLoginInfo <- slickUserLoginInfos.filter(_.loginInfoId === dbLoginInfo.id)
-      dbPasswordInfo <- slickPasswordInfos.filter(_.loginInfoId === dbLoginInfo.id)
       dbUser <- slickUsers.filter(_.id === dbUserLoginInfo.userID)
-    } yield (dbUser, dbPasswordInfo)
+    } yield (dbUser)
     db.run(userQuery.result.headOption).map { resultOption =>
       resultOption.map {
-        case (user, passwordInfo) =>
+        case (user) =>
           User(
             UUID.fromString(user.userId),
             loginInfo,
@@ -41,7 +40,7 @@ class UserRepositoryPosgresql @Inject() (protected val dbConfigProvider: Databas
             user.lastName,
             user.fullName,
             user.email,
-            Some(PasswordInfo(passwordInfo.hasher, passwordInfo.password, passwordInfo.salt)),
+            None,
             Roles.UserRole,
             user.rateLimit
           )
@@ -80,7 +79,30 @@ class UserRepositoryPosgresql @Inject() (protected val dbConfigProvider: Databas
     }
   }
 
-  def find: Future[List[User]] = ???
+  def find: Future[List[User]] = {
+    val query = for {
+      dbUser <- slickUsers
+      dbUserLoginInfo <- slickUserLoginInfos.filter(_.userID === dbUser.id)
+      dbLoginInfo <- slickLoginInfos.filter(_.id === dbUserLoginInfo.loginInfoId)
+      dbPasswordInfo <- slickPasswordInfos.filter(_.loginInfoId === dbLoginInfo.id)
+    } yield  (dbUser, dbLoginInfo, dbPasswordInfo)
+    db.run(query.to[List].result).map { resultOption =>
+      resultOption.map {
+        case (user, loginInfo, passwordInfo) =>
+          User(
+            UUID.fromString(user.userId),
+            LoginInfo(loginInfo.providerID, loginInfo.providerKey),
+            user.firstName,
+            user.lastName,
+            user.fullName,
+            user.email,
+            Some(PasswordInfo(passwordInfo.hasher, passwordInfo.password, passwordInfo.salt)),
+            Roles.UserRole,
+            user.rateLimit
+          )
+      }
+    }
+  }
 
   /**
     * Saves a user.

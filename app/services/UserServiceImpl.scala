@@ -13,27 +13,27 @@ import models.User
   *
   *  @param userDAO The user DAO implementation.
   */
-class UserServiceImpl @Inject() (userDAO: UserRepository) extends UserService {
+class UserServiceImpl @Inject() (userRepository: UserRepository) extends UserService {
 
   /** Retrieves a user that matches the specified login info.
     *
     *  @param loginInfo The login info to retrieve a user.
     *  @return The retrieved user or None if no user could be retrieved for the given login info.
     */
-  def retrieve(loginInfo: LoginInfo): Future[Option[User]] = userDAO.find(loginInfo)
+  def retrieve(loginInfo: LoginInfo): Future[Option[User]] = userRepository.find(loginInfo)
 
   /** Retrieves a user that matches the specified login info.
     *
     *  @param loginInfo The login info to retrieve a user.
     *  @return The retrieved user or None if no user could be retrieved for the given login info.
     */
-  def find: Future[Seq[User]] = userDAO.find
+  def find: Future[Seq[User]] = userRepository.find
 
   /** Saves a user.
     *
     *  @param user The user to save.
     *  @return The saved user.
     */
-  def save(user: User) = userDAO.save(user)
+  def save(user: User) = userRepository.save(user)
 
 }

@@ -1,16 +1,13 @@
 # --- !Ups
 
 create table users (
-  id bigserial,
-  firstName VARCHAR,
-  lastName VARCHAR,
-  fullName VARCHAR,
+  user_id VARCHAR NOT NULL,
+  first_name VARCHAR,
+  last_name VARCHAR,
+  full_name VARCHAR,
   email VARCHAR,
-  avatarURL VARCHAR,
-  gitbucket_token text,
-  created_at bigint not null,
-  updated_at bigint not null,
-  primary key (id)
+  rate_limit BIGINT NOT NULL,
+  primary key (user_id)
 );
 
 create table login_info (

@@ -17,7 +17,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 /**
   * The DAO to store the password information.
   */
-class PasswordInfoRepository @Inject() (protected val dbConfigProvider: DatabaseConfigProvider)
+class PasswordInfoRepositoryPostgresql @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
   extends DelegableAuthInfoDAO[PasswordInfo] with RepositorySlick {
 
   import driver.api._

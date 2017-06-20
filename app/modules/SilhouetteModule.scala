@@ -24,7 +24,7 @@ import com.mohiva.play.silhouette.password.BCryptPasswordHasher
 import com.mohiva.play.silhouette.persistence.daos.{DelegableAuthInfoDAO, InMemoryAuthInfoDAO}
 import com.mohiva.play.silhouette.persistence.repositories.DelegableAuthInfoRepository
 import repositories.UserRepository
-import repositories.postgresql.{PasswordInfoRepository, UserRepositoryPosgresql}
+import repositories.postgresql.{PasswordInfoRepositoryPostgresql, UserRepositoryPosgresql}
 import services.{UserService, UserServiceImpl}
 import utils.authentication.DefaultEnv
 import utils.ratelimiting.RateLimitActor
@@ -41,7 +41,7 @@ class SilhouetteModule extends AbstractModule with ScalaModule with AkkaGuiceSup
 
     bind[UserRepository].to[UserRepositoryPosgresql]
     bind[UserService].to[UserServiceImpl]
-    bind[DelegableAuthInfoDAO[PasswordInfo]].to[PasswordInfoRepository]
+    bind[DelegableAuthInfoDAO[PasswordInfo]].to[PasswordInfoRepositoryPostgresql]
 
     bind[Silhouette[DefaultEnv]].to[SilhouetteProvider[DefaultEnv]]
     bind[IDGenerator].toInstance(new SecureRandomIDGenerator())

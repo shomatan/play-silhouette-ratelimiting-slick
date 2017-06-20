@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+    db:
+      container_name: silhouette-postgres
+      image: postgres:9.5-alpine
+      environment:
+        POSTGRES_DB:        silhouette
+        POSTGRES_USER:      silhouette
+        POSTGRES_PASSWORD:  silhouette
+      ports:
+        - "54321:5432"
+      restart: always

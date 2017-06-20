@@ -1,6 +1,0 @@
-package repositories
-
-
-trait LoginInfoRepository {
-
-}

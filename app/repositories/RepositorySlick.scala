@@ -6,4 +6,4 @@ import play.api.db.slick.HasDatabaseConfigProvider
 /**
   * Trait that contains generic slick db handling code to be mixed in with DAOs
   */
-trait RepositorySlick extends HasDatabaseConfigProvider[JdbcProfile]
+trait RepositorySlick extends DBTableDefinitions with HasDatabaseConfigProvider[JdbcProfile]

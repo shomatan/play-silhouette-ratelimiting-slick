@@ -1,10 +1,11 @@
 package repositories
 
+import java.util.UUID
+
 import com.mohiva.play.silhouette.api.LoginInfo
 import models.User
 
 import scala.concurrent.Future
-
 
 trait UserRepository {
 
@@ -20,7 +21,7 @@ trait UserRepository {
     *  @param userID The ID of the user to find.
     *  @return The found user or None if no user for the given ID could be found.
     */
-  def find(userID: Long): Future[Option[User]]
+  def find(userID: UUID): Future[Option[User]]
 
   /** Finds all users.
     *

@@ -43,12 +43,6 @@ class SignInController @Inject() (
         credentialsProvider.authenticate(Credentials(data.email, data.password)).flatMap { loginInfo =>
           userService.retrieve(loginInfo).flatMap {
             case Some(user) => silhouette.env.authenticatorService.create(loginInfo).map {
-              case authenticator if data.rememberMe =>
-                val c = configuration.underlying
-                authenticator.copy(
-                  expirationDateTime = clock.now + c.as[FiniteDuration]("silhouette.authenticator.rememberMe.authenticatorExpiry"),
-                  idleTimeout = c.getAs[FiniteDuration]("silhouette.authenticator.rememberMe.authenticatorIdleTimeout")
-                )
               case authenticator => authenticator
             }.flatMap { authenticator =>
               silhouette.env.eventBus.publish(LoginEvent(user, request))

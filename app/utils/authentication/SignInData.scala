@@ -6,8 +6,7 @@ import play.api.libs.json.Json
   */
 case class SignInData(
   email: String,
-  password: String,
-  rememberMe: Boolean
+  password: String
 )
 
 object SignInData {

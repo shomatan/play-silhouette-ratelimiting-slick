@@ -2,19 +2,27 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET        /                                                controllers.AppController.user
+GET        /                                                controllers.IndexController.index
 
-POST       /signUp                                          controllers.SignUpController.submit
+GET        /api/v1/                                         controllers.AppController.user
 
-POST       /signIn                                          controllers.SignInController.submit
+POST       /api/v1/signUp                                   controllers.SignUpController.submit
 
-GET        /signOut                                         controllers.AppController.signOut
+POST       /api/v1/signIn                                   controllers.SignInController.submit
+
+GET        /api/v1/signOut                                  controllers.AppController.signOut
 
 # Rate-limiting
-GET        /limit                                           controllers.AppController.limit
-GET        /limitAndUserOnly                                controllers.AppController.limitUser
+GET        /api/v1/limit                                    controllers.AppController.limit
+GET        /api/v1/limitAndUserOnly                         controllers.AppController.limitUser
 
 # Authorization
-GET        /authorization/userOnly                          controllers.AppController.userOnly
-GET        /authorization/adminOnly                         controllers.AppController.adminOnly
-GET        /authorization/userOrAdmin                       controllers.AppController.userOrAdmin
+GET        /api/v1/authorization/userOnly                   controllers.AppController.userOnly
+GET        /api/v1/authorization/adminOnly                  controllers.AppController.adminOnly
+GET        /api/v1/authorization/userOrAdmin                controllers.AppController.userOrAdmin
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                                    controllers.Assets.versioned(path="/public", file: Asset)
+
+# Javascript Routes
+GET        /javascriptRoutes                                controllers.JsRouter.javascriptRoutes
